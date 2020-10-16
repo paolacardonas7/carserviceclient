@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OwnerService } from '../shared/owner/owner.service';
+import { CarService } from '../shared/car/car.service';
 import { GiphyService } from '../shared/giphy/giphy.service';
 
 @Component({
@@ -9,10 +10,15 @@ import { GiphyService } from '../shared/giphy/giphy.service';
 })
 export class OwnerListComponent implements OnInit {
   owners: Array<any>;
+  cars: Array<any>;
 
-  constructor(private ownerService: OwnerService, private giphyService: GiphyService) { }
+  constructor(private ownerService: OwnerService, private carService: CarService, private giphyService: GiphyService) { }
 
   ngOnInit() {
+    this.carService.getAll().subscribe(data => {
+      this.cars = data;
+    });
+
     this.ownerService.getAll().subscribe(data => {
       this.owners = data._embedded.owners;
       for (const owner of this.owners) {
@@ -21,4 +27,28 @@ export class OwnerListComponent implements OnInit {
     });
   }
 
+  removeItemFromArr(item) {
+    var i = this.owners.indexOf(item);
+    this.owners.splice(i, 1);
+  }
+
+  //usar ngFor?
+  remove(selctedOwners) {
+    for (var i = 0; i < selctedOwners.length; i++) {
+      var owner = selctedOwners[i].value;
+      var ownerCar;
+      var href = selctedOwners[i].value._links.self.href;
+
+      for (const car of this.cars) {
+        if (owner.dni == car.ownerDni) {
+          ownerCar = car;
+          ownerCar.ownerDni = null;
+          this.carService.save(ownerCar);
+        }
+      }
+
+      this.removeItemFromArr(owner);
+      this.ownerService.remove(href).subscribe((error) => console.error(error));
+    }
+  }
 }

@@ -26,9 +26,6 @@ export class CarEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.ownerService.getAll().subscribe(data => {
       this.owners = data._embedded.owners;
-      /* for (const owner of this.owners) {
-        this.giphyService.get(owner.name).subscribe(url => owner.giphyUrl = url);
-      } */
     });
 
     this.sub = this.route.params.subscribe(params => {
