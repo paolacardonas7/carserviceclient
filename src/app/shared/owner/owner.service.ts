@@ -16,8 +16,12 @@ export class OwnerService {
     return this.http.get(this.OWNER_API);
   }
 
-  get(id: string) {
-    return this.http.get(this.OWNER_API + '/' + id);
+  /*   get(id: string) {
+      return this.http.get(this.OWNER_API + '/' + id);
+    } */
+
+  getBy_linksHelfHref(link: string) {
+    return this.http.get(link);
   }
 
   save(owner: any): Observable<any> {
