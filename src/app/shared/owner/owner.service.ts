@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CarService } from '../car/car.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,19 +9,15 @@ import { Observable } from 'rxjs';
 export class OwnerService {
   public API = '//thawing-chamber-47973.herokuapp.com';
   public OWNER_API = this.API + '/owners';
+  cars: Array<any>;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private carService: CarService) { }
 
   getAll(): Observable<any> {
-    /* return this.http.get(this.API + '/cool-cars'); */
     return this.http.get(this.OWNER_API);
   }
 
-  /*   get(id: string) {
-      return this.http.get(this.OWNER_API + '/' + id);
-    } */
-
-  getBy_linksHelfHref(link: string) {
+  getByLink(link: string) {
     return this.http.get(link);
   }
 
@@ -34,7 +31,17 @@ export class OwnerService {
     return result;
   }
 
-  remove(href: string) {
+  remove(href: string, ownerDni) {
+    this.carService.getAll().subscribe(data => {
+      this.cars = data._embedded.cars;
+      for (const car of this.cars) {
+        if (ownerDni == car.ownerDni) {
+          var ownerCar = car;
+          ownerCar.ownerDni = null;
+          this.carService.save(ownerCar);
+        }
+      }
+    });
     return this.http.delete(href);
   }
 }

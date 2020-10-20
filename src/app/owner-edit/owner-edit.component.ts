@@ -25,7 +25,7 @@ export class OwnerEditComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
       const id = params['id'];
       if (id) {
-        this.OwnerService.getBy_linksHelfHref(id).subscribe((owner: any) => {
+        this.OwnerService.getByLink(id).subscribe((owner: any) => {
           if (owner) {
             this.owner = owner;
             this.owner.href = owner._links.self.href;
@@ -52,8 +52,8 @@ export class OwnerEditComponent implements OnInit {
     }, error => console.error(error));
   }
 
-  remove(href) {
-    this.OwnerService.remove(href).subscribe(result => {
+  remove(href, ownerDni) {
+    this.OwnerService.remove(href, ownerDni).subscribe(result => {
       this.gotoList();
     }, error => console.error(error));
   }

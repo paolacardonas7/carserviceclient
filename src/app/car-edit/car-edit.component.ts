@@ -31,7 +31,7 @@ export class CarEditComponent implements OnInit, OnDestroy {
     this.sub = this.route.params.subscribe(params => {
       const id = params['id'];
       if (id) {
-        this.carService.get(id).subscribe((car: any) => {
+        this.carService.getByLink(id).subscribe((car: any) => {
           if (car) {
             this.car = car;
             this.car.href = car._links.self.href;

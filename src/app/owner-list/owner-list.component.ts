@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OwnerService } from '../shared/owner/owner.service';
 import { CarService } from '../shared/car/car.service';
-import { GiphyService } from '../shared/giphy/giphy.service';
 
 @Component({
   selector: 'app-owner-list',
@@ -12,18 +11,15 @@ export class OwnerListComponent implements OnInit {
   owners: Array<any>;
   cars: Array<any>;
 
-  constructor(private ownerService: OwnerService, private carService: CarService, private giphyService: GiphyService) { }
+  constructor(private ownerService: OwnerService, private carService: CarService) { }
 
   ngOnInit() {
     this.carService.getAll().subscribe(data => {
-      this.cars = data;
+      this.cars = data._embedded.cars;
     });
 
     this.ownerService.getAll().subscribe(data => {
       this.owners = data._embedded.owners;
-      for (const owner of this.owners) {
-        this.giphyService.get(owner.name).subscribe(url => owner.giphyUrl = url);
-      }
     });
   }
 
@@ -34,7 +30,13 @@ export class OwnerListComponent implements OnInit {
 
   //usar ngFor?
   remove(selctedOwners) {
-    for (var i = 0; i < selctedOwners.length; i++) {
+    for (const selctedOwner of selctedOwners) {
+      var href = selctedOwner.value._links.self.href;
+      this.ownerService.remove(href, selctedOwner.dni).subscribe((error) => console.error(error));
+    }
+    window.location.reload();
+
+/*     for (var i = 0; i < selctedOwners.length; i++) {
       var owner = selctedOwners[i].value;
       var ownerCar;
       var href = selctedOwners[i].value._links.self.href;
@@ -48,7 +50,9 @@ export class OwnerListComponent implements OnInit {
       }
 
       this.removeItemFromArr(owner);
+      //este subscribe puede que de un error - averiguar por qué
       this.ownerService.remove(href).subscribe((error) => console.error(error));
-    }
+    } */
+
   }
 }
