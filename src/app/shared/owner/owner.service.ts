@@ -36,8 +36,10 @@ export class OwnerService {
       this.cars = data._embedded.cars;
       for (const car of this.cars) {
         if (ownerDni == car.ownerDni) {
+          console.log(car.ownerDni);
           var ownerCar = car;
           ownerCar.ownerDni = null;
+          console.log(ownerCar);
           this.carService.save(ownerCar);
         }
       }
