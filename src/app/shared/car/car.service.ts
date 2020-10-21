@@ -11,15 +11,16 @@ export class CarService {
   }
 
   getAll(): Observable<any> {
-    return this.http.get(this.API + '/cool-cars');
+    return this.http.get(this.CAR_API);
   }
 
-  get(id: string) {
-    return this.http.get(this.CAR_API + '/' + id);
+  getByLink(link: string) {
+    return this.http.get(link);
   }
 
   save(car: any): Observable<any> {
     let result: Observable<Object>;
+    console.log(car);
     if (car['href']) {
       result = this.http.put(car.href, car);
     } else {

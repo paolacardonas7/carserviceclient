@@ -1,1 +1,20 @@
-<p>owner-list works!</p>
+<mat-card>
+  <mat-card-title>Owner List</mat-card-title>
+  <mat-card-content>
+    <mat-selection-list #ownersList>
+      <mat-list-option *ngFor="let owner of owners" [value]="owner">
+        <h3 mat-line>
+          <a mat-button [routerLink]="['/owner-edit', owner._links.self.href]">{{owner.name}}</a>
+        </h3>
+      </mat-list-option>
+    </mat-selection-list>
+    <p>
+      Options selected: {{ownersList.selectedOptions.selected.length}}
+    </p>
+  </mat-card-content>
+  <button mat-fab color="primary" [routerLink]="['/owner-add']">Add</button>
+  <button mat-fab color="secondary" (click)="remove(ownersList.selectedOptions.selected)"
+    [disabled]="ownersList.selectedOptions.selected.length < 1">
+    Delete
+  </button>
+</mat-card>
