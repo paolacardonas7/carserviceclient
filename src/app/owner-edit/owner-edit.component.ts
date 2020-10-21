@@ -20,7 +20,6 @@ export class OwnerEditComponent implements OnInit {
     private OwnerService: OwnerService,
     private giphyService: GiphyService) { }
 
-  //creo que aquí es donde se debe cambiar id por href
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       const id = params['id'];

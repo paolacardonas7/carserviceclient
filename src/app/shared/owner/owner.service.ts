@@ -36,11 +36,10 @@ export class OwnerService {
       this.cars = data._embedded.cars;
       for (const car of this.cars) {
         if (ownerDni == car.ownerDni) {
-          console.log(car.ownerDni);
-          var ownerCar = car;
-          ownerCar.ownerDni = null;
-          console.log(ownerCar);
-          this.carService.save(ownerCar);
+          var carObject = {"href": null, "name": null, "ownerDni": null};
+          carObject.href = car._links.self.href;
+          carObject.name = car.name;
+          this.carService.save(carObject).subscribe((error) => console.error(error));
         }
       }
     });
