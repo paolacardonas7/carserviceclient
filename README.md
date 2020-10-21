@@ -3,7 +3,7 @@
 ## Componentes
 Para llevar a cabo las tareas propuestas fue necesario crear los siguientes componetes:  
 **owner-list**: permite mostrar la lista de propietarios(owners) y poder seleccionar uno o más propietarios para eliminar.  
-**owner-edit**: permiter crear, editar y eliminar un propietario.
+**owner-edit**: permiter crear, editar y eliminar un propietario.  
 Además, se editó el componete car-list para poder mostrar el DNI del propietario de cada carro y también el componete car-edit para permitir desplegar la lista de los propietarios disponibles al momento de editar un carro y asignarle un propietario.
 
 ## Servicios
